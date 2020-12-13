@@ -1,4 +1,4 @@
-{
+const config = {
   "development": {
     "port": 3000,
     "database": {
@@ -10,4 +10,6 @@
       "storeage": "./database.sqlite3"
     }
   }
-}
+};
+
+module.exports = config
