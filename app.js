@@ -1,11 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const logger = require('morgan')
 
 // init app
 let app = express();
 
-// request parsing
+// middleware
 app.use(bodyParser.json());
+app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
 
 // setup routes
 const userRouter = require('./routes/users')
@@ -18,16 +20,13 @@ app.use('/group', groupRouter)
 app.use('/collection', collectionRouter)
 app.use('/item', itemRouter)
 
-// db connection
-const sequelize = require('./database/connection');
-
-const User = sequelize.import('./models/user')
-User.create({
-  email: "hello",
-  password: "world"
-})
 
 const port = 3000
-app.listen(port, () => {
+app.listen(port, (err) => {
+  if (err) {
+    console.log(err.stack);
+    return
+  }
+  console.log
   console.log(`Listening on port ${port}...`);
 });

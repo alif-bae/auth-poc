@@ -1,31 +1,51 @@
-// let User = require('../models/user');
+const {User} = require('../models')
+const userService = require('../services/userService')
 
-exports.user_list = (req, res) => {
-  res.send(
-    'NOT IMPLEMENTED: user_list'
-  )
+const userList = async (req, res) => {
+  const users = await userService.getUserList()
+  res.json(users)
 }
 
-exports.user_detail = (req, res) => {
-  res.send(
-    'NOT IMPLEMENTED: user_detail'
-  )
+const userDetail = async (req, res) => {
+  user_id = parseInt(req.params.id)
+  const user = await userService.getUserById(user_id)
+
+  if (!user) {
+    res.status(404).send('Not Found')
+  } else {
+    res.status(200).json(user)
+  }
 }
 
-exports.user_create = (req, res) => {
-  res.send(
-    'NOT IMPLEMENTED: user_create'
-  )
+const userCreate = async (req, res) => {
+  new_user = await userService.createUser(
+    req.body.email,
+    req.body.password
+  );
+
+  if (!new_user) {
+    res.status(400).send('Bad Request')
+  } else {
+    res.status(201).send('Created')
+  }
 }
 
-exports.user_edit = (req, res) => {
+const userEdit = (req, res) => {
   res.send(
     'NOT IMPLEMENTED: user_edit'
   )
 }
 
-exports.user_delete = (req, res) => {
+const userDelete = (req, res) => {
   res.send(
     'NOT IMPLEMENTED: user_delete'
   )
+}
+
+module.exports = {
+  userList,
+  userDetail,
+  userCreate,
+  userEdit,
+  userDelete
 }

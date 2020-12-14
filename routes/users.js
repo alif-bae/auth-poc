@@ -2,12 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 // require controllers
-const user_controller = require('../controllers/userController')
+const userController = require('../controllers/userController')
 
-router.get('/', user_controller.user_list)
-router.get('/:id', user_controller.user_detail)
-router.post('/', user_controller.user_create)
-router.put('/:id', user_controller.user_edit)
-router.delete('/:id', user_controller.user_delete)
+function validateUrlPathParam(req, res, next) {
+    if (parseInt(req.params.id) <= 0) {
+        res.send("404 Not Found!");
+    }
+    next()
+};
+
+router.get('/', userController.userList)
+router.get('/:id', validateUrlPathParam, userController.userDetail)
+router.post('/', userController.userCreate)
+router.put('/:id', validateUrlPathParam, userController.userEdit)
+router.delete('/:id', validateUrlPathParam,  userController.userDelete)
 
 module.exports = router
