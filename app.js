@@ -16,12 +16,15 @@ const userRouter = require('./routes/users')
 const groupRouter = require('./routes/groups')
 const collectionRouter = require('./routes/collections')
 const itemRouter = require('./routes/items');
+const testRouter = require('./routes/test')
 
 app.use('/auth', authRouter)
 app.use('/user', userRouter)
 app.use('/group', groupRouter)
 app.use('/collection', collectionRouter)
 app.use('/item', itemRouter)
+app.use('/test', testRouter)
+
 
 app.use((err, req, res, next) => {
   console.log(err.stack)

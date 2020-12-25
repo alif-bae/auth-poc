@@ -8,15 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      group_id: {
+      groupId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "Groups",
           key: "id",
         },
       },
-      name: {
+      role: {
         type: Sequelize.STRING,
         allowNull: false,
       },
