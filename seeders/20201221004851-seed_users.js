@@ -15,28 +15,28 @@ module.exports = {
         {
           id: 2,
           email: "manager_g1@example.com",
-          password: psswd, // hello123
+          password: psswd,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           id: 3,
           email: "regular_g1@example.com",
-          password: psswd,  // hello123
+          password: psswd,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           id: 4,
           email: "regular_g1+2@example.com",
-          password: psswd,  // hello123
+          password: psswd,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           id: 5,
           email: "manager_g1+2@example.com",
-          password: psswd,  // hello123
+          password: psswd,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

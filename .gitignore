@@ -1,2 +1,7 @@
 node_modules/
 .vscode/
+
+.nvmrc
+.prettierrc
+.env
+package-lock.json

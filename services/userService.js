@@ -1,12 +1,13 @@
 const { User } = require("../models");
 
-function getUserList() {
-  users = User.findAll();
+
+async function getUserList() {
+  users = await User.findAll();
   return users;
 }
 
-function getUserById(user_id) {
-  user = User.findByPk(user_id);
+async function getUserById(user_id) {
+  user = await User.findByPk(user_id);
   if (!user) {
     return;
   }
@@ -58,7 +59,6 @@ async function deleteUser(userId, email) {
   } catch (err) {
     console.log(err)
   }
-
 }
 
 module.exports = {
