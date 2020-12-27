@@ -6,11 +6,12 @@
   "scripts": {
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db-reload": "node scripts/db_reload.js"
+    "reload-db": "node scripts/db_reload.js"
   },
   "author": "ali fawad",
   "license": "ISC",
   "dependencies": {
+    "await-exec": "^0.1.2",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
