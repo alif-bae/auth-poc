@@ -8,8 +8,8 @@ const userList = async (req, res) => {
 
 const userDetail = async (req, res) => {
   try {
-    req_user_id = parseInt(req.params.id);
-    const user = await userService.getUserById(req_user_id);
+    const reqUserId = parseInt(req.params.id);
+    const user = await userService.getUserById(reqUserId);
     res.status(200).json(user);
   } catch (err) {
     if (err.status == 404) {
@@ -28,8 +28,8 @@ const userCreate = async (req, res) => {
       throw ({status: 400, message: 'password is required'});
     }
 
-    new_user = await userService.createUser(req.body.email, req.body.password);
-    if (!new_user) {
+    const newUser = await userService.createUser(req.body.email, req.body.password);
+    if (!newUser) {
       throw {status: 422, message: "could not create user"};
     } else {
       res.status(201).json({message: "user created successfully"});
@@ -48,7 +48,8 @@ const userEdit = async (req, res) => {
     if (!req.body.email) {
       throw ({status: 400, message: 'email is required'});
     }
-    user = await userService.updateUser(req.params.id, req.body.email);
+    const reqUserId = parseInt(req.params.id);
+    const user = await userService.updateUser(reqUserId, req.body.email);
     res.status(200).json(user);
   } catch (err) {
     if (err.status == 404) {
@@ -61,10 +62,8 @@ const userEdit = async (req, res) => {
 
 const userDelete = async (req, res) => {
   try {
-    if (!req.params.id) {
-      throw ({status: 400, message: 'userId is required'});
-    }
-    await userService.deleteUser((userId = req.params.id), (email = req.body.email));
+    const reqUserId = parseInt(req.params.id);
+    await userService.deleteUser(reqUserId);
     res.status(204).json({message: 'user deleted successfully'})
   } catch (err) {
     if (err.status == 404) {

@@ -1,12 +1,12 @@
 const { User } = require("../models");
 
 async function getUserList() {
-  users = await User.findAll();
+  const users = await User.findAll();
   return users;
 }
 
-async function getUserById(user_id) {
-  const user = await User.findByPk(user_id);
+async function getUserById(userId) {
+  const user = await User.findByPk(userId);
   if (!user) {
     throw { status: 404, message: "user does not exist" };
   } else {
@@ -15,7 +15,7 @@ async function getUserById(user_id) {
 }
 
 async function getUserByEmail(email) {
-  user = await User.findOne({ where: { email: email } });
+  const user = await User.findOne({ where: { email: email } });
   if (!user) {
     throw { status: 404, message: "email not found" };
   } else {
@@ -24,14 +24,14 @@ async function getUserByEmail(email) {
 }
 
 async function createUser(email, password) {
-  new_user = await User.create({
+  const newUser = await User.create({
     email: email,
     password: password,
   });
-  if (!new_user) {
+  if (!newUser) {
     throw { status: 422, message: "could not create user" };
   } else {
-    return new_user;
+    return newUser;
   }
 }
 
@@ -55,10 +55,10 @@ async function updateUser(userId, email) {
   }
 }
 
-async function deleteUser(userId, email) {
+async function deleteUser(userId) {
   const rows = await User.destroy({
     where: {
-      id: req.params.id,
+      id: userId,
     },
   });
   if (rows) {

@@ -9,7 +9,6 @@ module.exports = {
           id: 1,
           userId: 1,
           roleId: 1,  // global manager
-          groupId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -17,7 +16,6 @@ module.exports = {
           id: 2,
           userId: 2,  // manager_g1
           roleId: 3,  // manager group 1
-          groupId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -25,7 +23,6 @@ module.exports = {
           id: 3,
           userId: 3,  // regular_g1
           roleId: 2,  // regular group 1
-          groupId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -33,15 +30,6 @@ module.exports = {
           id: 4,
           userId: 4,  // regular_g1+2
           roleId: 2,  // regular group 1
-          groupId: 1,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          id: 4,
-          userId: 4,  // regular_g1+2
-          roleId: 2,  // regular group 1
-          groupId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -49,7 +37,6 @@ module.exports = {
           id: 5,
           userId: 4,  // regular_g1+2
           roleId: 5,  // regular group 2,
-          groupId: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -57,7 +44,6 @@ module.exports = {
           id: 6,
           userId: 5,  // manager_g1+2
           roleId: 3,  // manager group 1
-          groupId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
