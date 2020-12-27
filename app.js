@@ -25,10 +25,10 @@ app.use('/collection', collectionRouter)
 app.use('/item', itemRouter)
 app.use('/test', testRouter)
 
-app.use((err, req, res, next) => {
-  console.log(err.stack)
-  res.status(500).send('Internal Server Error')
-});
+// app.use((err, req, res, next) => {
+//   console.log(err.stack)
+//   res.status(500).send('Internal Server Error')
+// });
 
 app.listen(3000, (err) => {
   console.log(`Listening on port 3000...`);

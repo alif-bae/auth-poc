@@ -1,13 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const passport = require("passport");
+const { validatePathParam } = require("../middleware/utils/argUtil");
 
 // require controllers
-const item_controller = require('../controllers/itemController')
+const itemController = require("../controllers/itemController");
 
-router.get('/', item_controller.item_list)
-router.get('/:id', item_controller.item_detail)
-router.post('/', item_controller.item_create)
-router.put('/:id', item_controller.item_edit)
-router.delete('/:id', item_controller.item_delete)
+router.get("/", [passport.authenticate("jwt", { session: false })], itemController.itemList);
+router.get("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], itemController.itemDetail);
+router.post("/", [passport.authenticate("jwt", { session: false })], itemController.itemCreate);
+router.put("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], itemController.itemEdit);
+router.delete(
+  "/:id",
+  [passport.authenticate("jwt", { session: false }), validatePathParam],
+  itemController.itemDelete
+);
 
-module.exports = router
+module.exports = router;

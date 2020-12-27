@@ -1,13 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const passport = require("passport");
+const { validatePathParam } = require("../middleware/utils/argUtil");
 
 // require controllers
-const collection_controller = require('../controllers/collectionController')
+const collectionController = require("../controllers/collectionController");
 
-router.get('/', collection_controller.collection_list)
-router.get('/:id', collection_controller.collection_detail)
-router.post('/', collection_controller.collection_create)
-router.put('/:id', collection_controller.collection_edit)
-router.delete('/:id', collection_controller.collection_delete)
+router.get("/", [passport.authenticate("jwt", { session: false })], collectionController.collectionList);
+router.get("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], collectionController.collectionDetail);
+router.post("/", [passport.authenticate("jwt", { session: false })], collectionController.collectionCreate);
+router.put("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], collectionController.collectionEdit);
+router.delete(
+  "/:id",
+  [passport.authenticate("jwt", { session: false }), validatePathParam],
+  collectionController.collectionDelete
+);
 
-module.exports = router
+module.exports = router;

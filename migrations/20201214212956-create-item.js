@@ -8,7 +8,7 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER
       },
-      parentId: {
+      collectionId: {
         type: Sequelize.STRING,
         allowNull: false,
         references: {

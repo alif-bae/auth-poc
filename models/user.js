@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.Role, {through: 'UserRole'})
-      this.belongsToMany(models.Group, {through: 'GroupUser'})
     }
 
     verifyPassword(password) {
@@ -25,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
       },
       email: {
         type: DataTypes.STRING,

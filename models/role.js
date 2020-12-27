@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
       },
       role: DataTypes.STRING,
       groupId: DataTypes.INTEGER

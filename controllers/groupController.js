@@ -1,4 +1,3 @@
-const { User, UserRole, Role } = require("../models");
 const groupService = require("../services/groupService");
 
 const groupList = async (req, res) => {
@@ -13,47 +12,45 @@ const groupDetail = async (req, res, next) => {
     res.status(200).json(group);
   } catch (err) {
     if (err.status == 404) {
-      res.status(err.status).json({message: err.message});
-    } else (
-      next(err)
-    )
+      res.status(err.status).json({ message: err.message });
+    } else next(err);
   }
 };
 
 const groupCreate = async (req, res, next) => {
   try {
     if (!req.body.name) {
-      throw {status: 400, message: 'name is required'};
+      throw { status: 400, message: "name is required" };
     }
 
     const newGroup = await groupService.createGroup(req.body.name);
     if (!newGroup) {
-      throw {status: 422, message: 'could not create group'};
+      throw { status: 422, message: "could not create group" };
     } else {
-      res.status(201).json({message: "group created successfully"});
+      res.status(201).json(newGroup);
     }
   } catch (err) {
     if (err.status == 400 || err.status == 422) {
-      res.status(err.status).json({message: err.message})
+      res.status(err.status).json({ message: err.message });
     } else {
-      next(err)
-    };
+      next(err);
+    }
   }
 };
 
 const groupEdit = async (req, res, next) => {
   try {
     if (!req.body.name) {
-      throw ({status: 400, message: 'name is required'});
+      throw { status: 400, message: "name is required" };
     }
     const reqGroupId = parseInt(req.params.id);
     const group = await groupService.updateGroup(reqGroupId, req.body.name);
     res.status(200).json(group);
   } catch (err) {
     if (err.status == 404) {
-      res.status(err.status).json({message: err.message});
+      res.status(err.status).json({ message: err.message });
     } else {
-      next(err)
+      next(err);
     }
   }
 };
@@ -61,13 +58,13 @@ const groupEdit = async (req, res, next) => {
 const groupDelete = async (req, res, next) => {
   try {
     const reqGroupId = parseInt(req.params.id);
-    await userService.deleteUser(reqGroupId);
-    res.status(204).json({message: 'group deleted successfully'})
+    result = await groupService.deleteGroup(reqGroupId);
+    res.status(204).json({message: "group deleted successfully"});
   } catch (err) {
     if (err.status == 404) {
-      res.status(err.status).json({message: err.message})
+      res.status(err.status).json({ message: err.message });
     } else {
-      next(err)
+      next(err);
     }
   }
 };

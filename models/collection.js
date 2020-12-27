@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Group);
       this.hasMany(models.Item);
+      this.belongsTo(models.Group);
     }
   }
   Collection.init(
@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
       },
       name: DataTypes.STRING,
       groupId: DataTypes.INTEGER,
