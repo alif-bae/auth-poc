@@ -39,8 +39,17 @@ async function deleteByRoleId(roleId) {
     return
 }
 
+async function deleteByUserId(userId) {
+    await UserRole.destroy({
+        where: {
+            userId: userId
+        }
+    })
+}
+
 module.exports = {
   getByGroupId,
   deleteByGroupId,
-  deleteByRoleId
+  deleteByRoleId,
+  deleteByUserId
 };

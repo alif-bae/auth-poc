@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = require("passport-jwt").Strategy;
 const { ExtractJwt } = require("passport-jwt");
-const userService = require("./services/userService");
+const userService = require("../services/userService");
 
 // given a user's email and password, verify their password hash
 passport.use(
