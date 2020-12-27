@@ -2,8 +2,9 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const psswd = "$2y$12$O4CKzxu35vcepf4Vun/yyusj/ob0uYnyhQq4u9yrcoxmMiNRJao2u" // hello123
-    "Users",
+    const psswd = "$2y$12$O4CKzxu35vcepf4Vun/yyusj/ob0uYnyhQq4u9yrcoxmMiNRJao2u"; // hello123
+    await queryInterface.bulkInsert(
+      "Users",
       [
         {
           id: 1,
@@ -41,7 +42,8 @@ module.exports = {
           updatedAt: new Date(),
         },
       ],
-      {};
+      {}
+    );
   },
 
   down: async (queryInterface, Sequelize) => {

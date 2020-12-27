@@ -1,15 +1,56 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const passport = require('passport')
-const {validateUrlPathParam} = require('../utils/argUtil')
+const passport = require("passport");
+const { validatePathParam } = require("../middleware/utils/argUtil");
+
+const AUTHENTICATE_USER =
+
+// router middleware
+async function get_permissions(req, res, next) {
+  userRoles = await req.user.getRoles();
+  const permissions = {
+      'globalManager': false,
+      'manager': [],
+      'regular': []
+  }
+
+  for (role of userRoles) {
+      if (role.role == 'globalManager') {
+          permissions['globalManager'] = true
+          break
+      } else if (role.role == 'manager') {
+          permissions.manager.push(role.groupId)
+      } else if (role.role == 'regular') {
+          permissions.regular.push(role.groupId)
+      }
+  }
+
+  req.permissions = permissions
+  next();
+}
+
 
 // require controllers
-const userController = require('../controllers/userController')
+const userController = require("../controllers/userController");
 
-router.get('/', userController.userList)
-router.get('/:id', passport.authenticate('jwt', {session: false}), validateUrlPathParam, userController.userDetail)
-router.post('/', userController.userCreate)
-router.put('/:id', validateUrlPathParam, userController.userEdit)
-router.delete('/:id', validateUrlPathParam,  userController.userDelete)
+// GET /user/
+router.get("/", userController.userList);
 
-module.exports = router
+// GET /user/:id
+router.get(
+  "/:id",
+  [passport.authenticate("jwt", { session: false }),
+   validatePathParam],
+  userController.userDetail
+);
+
+// POST /user/
+router.post("/", userController.userCreate);
+
+// PUT /user/:id
+router.put("/:id", validatePathParam, userController.userEdit);
+
+// DELETE /user/:id
+router.delete("/:id", validatePathParam, userController.userDelete);
+
+module.exports = router;

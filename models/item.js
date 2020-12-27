@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Item.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      primaryKey: true
+    },
+    parentId: DataTypes.INTEGER,
     name: DataTypes.STRING
   }, {
     sequelize,

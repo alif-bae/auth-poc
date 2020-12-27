@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Role, {through: 'User_Role'})
+      this.belongsToMany(models.Role, {through: 'UserRole'})
+      this.belongsToMany(models.Group, {through: 'GroupUser'})
     }
 
     verifyPassword(password) {
@@ -20,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
+        primaryKey: true
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,

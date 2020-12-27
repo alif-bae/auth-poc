@@ -9,18 +9,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Group)
-      this.belongsToMany(models.User, {through: 'User_Role'})
+      this.belongsToMany(models.User, {through: 'UserRole'})
     }
   }
   Role.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
+        primaryKey: true
+      },
       role: DataTypes.STRING,
       groupId: DataTypes.INTEGER
     },
     {
       sequelize,
       modelName: "Role",
-      underscored: true
     }
   );
   return Role;
