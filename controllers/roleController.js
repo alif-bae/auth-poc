@@ -1,9 +1,13 @@
 const roleService = require("../services/roleService");
 const userRoleService = require("../services/userRoleService")
 
-const roleList = async (req, res) => {
-  const roles = await roleService.getRoleList();
-  res.status(200).json(roles);
+const roleList = async (req, res, next) => {
+  try {
+    const roles = await roleService.getRoleList(req.permissions.allowedGroupIds);
+    res.status(200).json(roles);
+  } catch (err) {
+    next(err)
+  }
 };
 
 const roleDetail = async (req, res, next) => {

@@ -1,8 +1,14 @@
 const { Role, sequelize } = require("../models");
 const userRoleService = require("../services/userRoleService")
 
-async function getRoleList() {
-  roles = await Role.findAll();
+async function getRoleList(groupIds) {
+  const whereClause = {}
+  if (groupIds.length) {
+    whereClause.groupId = groupIds
+  }
+  roles = await Role.findAll({
+    where: whereClause
+  });
   return roles;
 }
 
@@ -67,12 +73,13 @@ async function deleteRole(roleId) {
   }
 }
 
-async function getByGroupId(groupId) {
-  const groupRoles = Role.findAll({
+async function getByGroupIds(groupIds) {
+  const groupRoles = await Role.findAll({
     where: {
-      groupId: groupId,
+      groupId: groupIds,
     },
   });
+  return groupRoles
 }
 
 async function deleteByGroupId(groupId) {
@@ -101,6 +108,6 @@ module.exports = {
   createRole,
   updateRole,
   deleteRole,
-  getByGroupId,
+  getByGroupIds,
   deleteByGroupId,
 };

@@ -13,7 +13,7 @@ users, groups. collections and items
 
 A global manager can:
 
-- CRUD all roles users
+- CRUD all roles, users
 - CRUD all groups, collections and items
 
 A group manager can:

@@ -16,12 +16,14 @@ const userRouter = require('./routes/users')
 const groupRouter = require('./routes/groups')
 const collectionRouter = require('./routes/collections')
 const itemRouter = require('./routes/items');
+const roleRouter = require('./routes/roles')
 
 app.use('/auth', authRouter)
 app.use('/user', userRouter)
 app.use('/group', groupRouter)
 app.use('/collection', collectionRouter)
 app.use('/item', itemRouter)
+app.use('/role', roleRouter)
 
 // post-request middleware
 app.use((err, req, res, next) => {
