@@ -1,7 +1,7 @@
 const collectionService = require("../services/collectionService");
 
 const collectionList = async (req, res) => {
-  const collections = await collectionService.getCollectionList();
+  const collections = await collectionService.getCollectionList(req.permissions.allowedGroupIds);
   res.status(200).json(collections);
 };
 

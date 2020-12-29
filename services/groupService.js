@@ -1,6 +1,6 @@
-const { sequelize , Group} = require("../models");
-const collectionService = require("../services/collectionService")
-const roleService = require("../services/roleService")
+const { sequelize, Group } = require("../models");
+const collectionService = require("../services/collectionService");
+const roleService = require("../services/roleService");
 
 async function getGroupList() {
   groups = await Group.findAll();
@@ -48,10 +48,10 @@ async function updateGroup(groupId, name) {
 }
 
 async function deleteGroup(groupId) {
-  const transaction = await sequelize.transaction()
+  const transaction = await sequelize.transaction();
   try {
-    await collectionService.deleteByGroupId(groupId)
-    await roleService.deleteByGroupId(groupId)
+    await collectionService.deleteByGroupIds([groupId]);
+    await roleService.deleteByGroupId(groupId);
     const rows = await Group.destroy({
       where: {
         id: groupId,
@@ -63,8 +63,8 @@ async function deleteGroup(groupId) {
       throw { status: 404, message: "group does not exist" };
     }
   } catch (err) {
-    await transaction.rollback()
-    throw(err)
+    await transaction.rollback();
+    throw err;
   }
 }
 

@@ -1,19 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+
+const itemController = require("../controllers/itemController");
+const authenticate = passport.authenticate("jwt", { session: false });
+const { authorize } = require("../middleware/guards/authGuard");
 const { validatePathParam } = require("../middleware/utils/argUtil");
 
-// require controllers
-const itemController = require("../controllers/itemController");
+// GET /item/
+router.get("/", [authenticate, authorize("item", "list")], itemController.itemList);
 
-router.get("/", [passport.authenticate("jwt", { session: false })], itemController.itemList);
-router.get("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], itemController.itemDetail);
-router.post("/", [passport.authenticate("jwt", { session: false })], itemController.itemCreate);
-router.put("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], itemController.itemEdit);
-router.delete(
-  "/:id",
-  [passport.authenticate("jwt", { session: false }), validatePathParam],
-  itemController.itemDelete
-);
+// GET /item/:id
+router.get("/:id", [authenticate, authorize("item", "id"), validatePathParam], itemController.itemDetail);
+
+// POST /item/
+router.post("/", [authenticate, authorize("item", "new")], itemController.itemCreate);
+
+// UPDATE /item/:id
+router.put("/:id", [authenticate, validatePathParam, authorize("item", "id")], itemController.itemEdit);
+
+// DELETE /item/:id
+router.delete("/:id", [authenticate, validatePathParam, authorize("item", "id")], itemController.itemDelete);
 
 module.exports = router;

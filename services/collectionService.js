@@ -1,8 +1,11 @@
-const { Collection, Item, sequelize } = require("../models");
-const itemService = require("../services/itemService");
+const { Collection, sequelize } = require("../models");
 
-async function getCollectionList() {
-  collections = await Collection.findAll();
+async function getCollectionList(groupIds) {
+  const whereClause = {};
+  if (groupIds.length) {
+    whereClause.groupId = groupIds;
+  }
+  collections = await Collection.findAll({ where: whereClause });
   return collections;
 }
 
@@ -67,18 +70,18 @@ async function deleteCollection(collectionIds) {
   }
 }
 
-async function getByGroupId(groupId) {
+async function getByGroupIds(groupIds) {
   const collections = await Collection.findAll({
     where: {
-      groupId: groupId,
+      groupId: groupIds,
     },
   });
   return collections;
 }
 
-async function deleteByGroupId(groupId) {
-  const groupCollections = await getByGroupId(groupId);
-  const collectionIds = groupCollections.map(col => col.id)
+async function deleteByGroupIds(groupIds) {
+  const groupCollections = await getByGroupIds(groupIds);
+  const collectionIds = groupCollections.map((col) => col.id);
   await deleteCollection(collectionIds);
 }
 
@@ -88,6 +91,9 @@ module.exports = {
   createCollection,
   updateCollection,
   deleteCollection,
-  getByGroupId,
-  deleteByGroupId,
+  getByGroupIds,
+  deleteByGroupIds,
 };
+
+const itemService = require("../services/itemService");
+

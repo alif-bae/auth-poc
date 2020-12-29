@@ -1,7 +1,13 @@
 const { Item } = require("../models");
+const collectionService = require("../services/collectionService");
 
-async function getItemList() {
-  items = await Item.findAll();
+async function getItemList(groupIds) {
+  const whereClause = {};
+  if (groupIds) {
+    const groupCollections = await collectionService.getByGroupIds(groupIds);
+    whereClause.collectionId = groupCollections.map((collection) => collection.id);
+  }
+  const items = await Item.findAll({ where: whereClause });
   return items;
 }
 
@@ -12,6 +18,13 @@ async function getItemById(itemId) {
   } else {
     return item;
   }
+}
+
+async function getByGroupIds(groupIds) {
+  const groupCollections = await collectionService.getByGroupIds(groupIds);
+  const collectionIds = groupCollections.map((collection) => collection.id);
+  const items = await Item.findAll({ where: { collectionId: collectionIds } });
+  return items;
 }
 
 async function createItem(name, collectionId) {
@@ -68,15 +81,16 @@ async function deleteByCollectionIds(collectionIds) {
   if (!rows) {
     throw { status: 404, message: "collection(s) not found" };
   } else {
-    return true
+    return true;
   }
 }
 
 module.exports = {
   getItemList,
   getItemById,
+  getByGroupIds,
   createItem,
   updateItem,
   deleteItem,
-  deleteByCollectionIds
+  deleteByCollectionIds,
 };

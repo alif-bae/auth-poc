@@ -1,14 +1,12 @@
 const { Role, sequelize } = require("../models");
-const userRoleService = require("../services/userRoleService")
+const userRoleService = require("../services/userRoleService");
 
 async function getRoleList(groupIds) {
-  const whereClause = {}
+  const whereClause = {};
   if (groupIds.length) {
-    whereClause.groupId = groupIds
+    whereClause.groupId = groupIds;
   }
-  roles = await Role.findAll({
-    where: whereClause
-  });
+  roles = await Role.findAll({ where: whereClause });
   return roles;
 }
 
@@ -54,9 +52,9 @@ async function updateRole(roleId, name) {
 }
 
 async function deleteRole(roleId) {
-  const transaction = await sequelize.transaction
+  const transaction = await sequelize.transaction;
   try {
-    await userRoleService.deleteByRoleId(roleId)
+    await userRoleService.deleteByRoleId(roleId);
     const rows = await Role.destroy({
       where: {
         id: roleId,
@@ -68,8 +66,8 @@ async function deleteRole(roleId) {
       throw { status: 404, message: "role does not exist" };
     }
   } catch (err) {
-    await transaction.roleback()
-    throw(err)
+    await transaction.roleback();
+    throw err;
   }
 }
 
@@ -79,16 +77,16 @@ async function getByGroupIds(groupIds) {
       groupId: groupIds,
     },
   });
-  return groupRoles
+  return groupRoles;
 }
 
 async function deleteByGroupId(groupId) {
   const transaction = await sequelize.transaction();
   try {
-    await userRoleService.deleteByGroupId(groupId)
+    await userRoleService.deleteByGroupId(groupId);
     const rows = await Role.destroy({
       where: {
-        groupId: groupId
+        groupId: groupId,
       },
     });
     if (rows) {

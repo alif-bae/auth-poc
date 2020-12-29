@@ -1,7 +1,7 @@
 const itemService = require("../services/itemService");
 
 const itemList = async (req, res) => {
-  const items = await itemService.getItemList();
+  const items = await itemService.getItemList(req.permissions.allowedGroupIds);
   res.status(200).json(items);
 };
 

@@ -1,48 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+
+const userController = require("../controllers/userController");
+const authenticate = passport.authenticate("jwt", { session: false });
+const { authorize } = require("../middleware/guards/authGuard");
 const { validatePathParam } = require("../middleware/utils/argUtil");
 
-// router middleware
-async function get_permissions(req, res, next) {
-  userRoles = await req.user.getRoles();
-  const permissions = {
-    globalManager: false,
-    manager: [],
-    regular: [],
-  };
-
-  for (role of userRoles) {
-    if (role.role == "globalManager") {
-      permissions["globalManager"] = true;
-      break;
-    } else if (role.role == "manager") {
-      permissions.manager.push(role.groupId);
-    } else if (role.role == "regular") {
-      permissions.regular.push(role.groupId);
-    }
-  }
-
-  req.permissions = permissions;
-  next();
-}
-
-// require controllers
-const userController = require("../controllers/userController");
-
 // GET /user/
-router.get("/", [passport.authenticate("jwt", { session: false })], userController.userList);
+router.get("/", [authenticate, authorize("user", "list")], userController.userList);
 
 // GET /user/:id
-router.get("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], userController.userDetail);
+router.get("/:id", [authenticate, authorize("user", "id"), validatePathParam], userController.userDetail);
 
 // POST /user/
-router.post("/", [passport.authenticate("jwt", { session: false })], userController.userCreate);
+router.post("/", [authenticate, authorize("user", "new")], userController.userCreate);
 
-// PUT /user/:id
-router.put("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], userController.userEdit);
+// UPDATE /user/:id
+router.put("/:id", [authenticate, validatePathParam, authorize("user", "id")], userController.userEdit);
 
 // DELETE /user/:id
-router.delete("/:id", [passport.authenticate("jwt", { session: false }), validatePathParam], userController.userDelete);
+router.delete("/:id", [authenticate, validatePathParam, authorize("user", "id")], userController.userDelete);
 
 module.exports = router;

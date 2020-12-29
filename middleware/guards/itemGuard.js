@@ -1,7 +1,6 @@
-const roleService = require("../../services/roleService");
-const { getPermissions } = require("../guards/baseGuard")
+const { getPermissions } = require("../guards/baseGuard");
 
-async function guardRoleList(req, res, next) {
+async function guardItemList(req, res, next) {
   req.permissions = await getPermissions(req.user, true);
   if (req.permissions.isGlobalManager) {
     next();
@@ -12,15 +11,15 @@ async function guardRoleList(req, res, next) {
   }
 }
 
-async function guardRoleId(req, res, next) {
+async function guardItemId(req, res, next) {
   req.permissions = await getPermissions(req.user, false);
   if (req.permissions.isGlobalManager) {
     next();
   } else if (req.permissions.allowedGroupIds.length) {
-    const roles = await roleService.getByGroupIds(req.permissions.allowedGroupIds);
-    const roleIds = roles.map((role) => role.id);
-    if (!roleIds.includes(parseInt(req.params.id))) {
-      // manager can only get/update/delete roles in groups they manage
+    const items = await itemService.getByGroupIds(req.permissions.allowedGroupIds);
+    const itemIds = items.map((item) => item.id);
+    if (!itemIds.includes(parseInt(req.params.id))) {
+      // manager can only get/update/delete items in groups they manage
       res.status(403).send("Forbidden");
     } else {
       next();
@@ -30,13 +29,13 @@ async function guardRoleId(req, res, next) {
   }
 }
 
-async function guardRoleCreate(req, res, next) {
+async function guardItemCreate(req, res, next) {
   req.permissions = await getPermissions(req.user, false);
   if (req.permissions.isGlobalManager) {
     next();
   } else if (req.permissions.allowedGroupIds.length) {
     if (!req.permissions.allowedGroupIds.includes(parseInt(req.body.groupId))) {
-      // manager can only create roles in groups they manage
+      // manager can only create items in groups they manage
       res.status(403).send("Forbidden");
     }
   } else {
@@ -45,7 +44,9 @@ async function guardRoleCreate(req, res, next) {
 }
 
 module.exports = {
-  guardRoleList,
-  guardRoleId,
-  guardRoleCreate,
+  guardItemList,
+  guardItemId,
+  guardItemCreate,
 };
+
+const itemService = require("../../services/itemService");
