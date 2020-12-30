@@ -7,7 +7,7 @@
     "start": "NODE_ENV=development nodemon app.js",
     "db:reload:dev": "NODE_ENV=development rm development.db.sqlite && NODE_ENV=development npx sequelize db:migrate && NODE_ENV=development npx sequelize db:seed:all",
     "db:reload:test": "NODE_ENV=test rm test.db.sqlite && NODE_ENV=test npx sequelize db:migrate && NODE_ENV=test npx sequelize db:seed:all",
-    "mocha": "npm run db:reload:test && npx mocha --timeout 10000",
+    "test": "npm run db:reload:test && NODE_ENV=test npx mocha --timeout 10000",
     "reload-db": "node scripts/db_reload.js"
   },
   "author": "ali fawad",

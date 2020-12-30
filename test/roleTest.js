@@ -5,7 +5,7 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
-describe("Test Users as Global Manager", () => {
+describe("Test Roles as Global Manager", () => {
   let jwt = "";
   before((done) => {
     chai
@@ -21,10 +21,10 @@ describe("Test Users as Global Manager", () => {
       });
   });
 
-  it("should GET all the users", (done) => {
+  it("should GET all the roles", (done) => {
     chai
       .request(app)
-      .get("/user")
+      .get("/role")
       .set("Authorization", jwt)
       .end((err, res) => {
         res.should.have.status(200);
@@ -33,10 +33,10 @@ describe("Test Users as Global Manager", () => {
       });
   });
 
-  it("should GET user with id 2", (done) => {
+  it("should GET role with id 2", (done) => {
     chai
       .request(app)
-      .get("/user/2")
+      .get("/role/2")
       .set("Authorization", jwt)
       .end((err, res) => {
         res.should.have.status(200);
@@ -45,38 +45,36 @@ describe("Test Users as Global Manager", () => {
       });
   });
 
-  it("should POST a new user", (done) => {
+  it("should POST a new role", (done) => {
     chai
       .request(app)
-      .post("/user/")
+      .post("/role/")
       .set("Authorization", jwt)
-      .send({ email: "new_user@example.com", password: "hello123" })
+      .send({ role: "new role", groupId: 1 })
       .end((err, res) => {
         res.should.have.status(201);
         res.body.should.be.a("object");
-        res.body.email.should.equal("new_user@example.com");
         done();
       });
   });
 
-  it("should PUT user with id 6", (done) => {
+  it("should PUT role with id 6", (done) => {
     chai
       .request(app)
-      .put("/user/6")
+      .put("/role/6")
       .set("Authorization", jwt)
-      .send({ email: "updated_email" })
+      .send({ role: "updated role"})
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a("object");
-        res.body.email.should.equal("updated_email");
         done();
       });
   });
 
-  it("should DELETE user with id 6", (done) => {
+  it("should DELETE role with id 6", (done) => {
     chai
       .request(app)
-      .delete("/user/6")
+      .delete("/role/6")
       .set("Authorization", jwt)
       .end((err, res) => {
         res.should.have.status(204);
@@ -86,7 +84,7 @@ describe("Test Users as Global Manager", () => {
 });
 
 
-describe("Test Users as Group Manager", () => {
+describe("Test Roles as Group Manager", () => {
   let jwt = "";
   before((done) => {
     chai
@@ -102,56 +100,91 @@ describe("Test Users as Group Manager", () => {
       });
   });
 
-  it("should not GET all users", (done) => {
+  it("should GET all roles in group 1", (done) => {
     chai
       .request(app)
-      .get("/user")
+      .get("/role")
       .set("Authorization", jwt)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  it("should GET role with id 2 in group 1", (done) => {
+    chai
+      .request(app)
+      .get("/role/2")
+      .set("Authorization", jwt)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  it("should CREATE a new role in group 1", (done) => {
+    chai
+      .request(app)
+      .post("/role/")
+      .set("Authorization", jwt)
+      .send({ role: "new role", groupId: 1 })
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+  });
+
+  it("should NOT CREATE a new role in group 2", (done) => {
+    chai
+      .request(app)
+      .post("/role/")
+      .set("Authorization", jwt)
+      .send({ role: "new role", groupId: 2 })
       .end((err, res) => {
         res.should.have.status(403);
         done();
       });
   });
 
-  it("should not GET user with id 2", (done) => {
+  it("should EDIT role with id 7", (done) => {
     chai
       .request(app)
-      .get("/user/2")
+      .put("/role/7")
       .set("Authorization", jwt)
+      .send({ role: "updated role" })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  it("should NOT EDIT role with id 5", (done) => {
+    chai
+      .request(app)
+      .put("/role/5")
+      .set("Authorization", jwt)
+      .send({ role: "updated role" })
       .end((err, res) => {
         res.should.have.status(403);
         done();
       });
   });
 
-  it("should not POST a new user", (done) => {
+  it("should DELETE role with id 7", (done) => {
     chai
       .request(app)
-      .post("/user/")
+      .delete("/role/7")
       .set("Authorization", jwt)
-      .send({ email: "new_user@example.com", password: "hello123" })
       .end((err, res) => {
-        res.should.have.status(403);
+        res.should.have.status(204);
         done();
       });
   });
 
-  it("should not PUT user with id 2", (done) => {
+  it("should NOT DELETE role with id 5", (done) => {
     chai
       .request(app)
-      .put("/user/2")
-      .set("Authorization", jwt)
-      .send({ email: "updated_email" })
-      .end((err, res) => {
-        res.should.have.status(403);
-        done();
-      });
-  });
-
-  it("should not DELETE user with id 2", (done) => {
-    chai
-      .request(app)
-      .delete("/user/2")
+      .delete("/role/5")
       .set("Authorization", jwt)
       .end((err, res) => {
         res.should.have.status(403);
