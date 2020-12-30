@@ -3,7 +3,7 @@ const collectionService = require("../services/collectionService");
 
 async function getItemList(groupIds) {
   const whereClause = {};
-  if (groupIds) {
+  if (groupIds.length) {
     const groupCollections = await collectionService.getByGroupIds(groupIds);
     whereClause.collectionId = groupCollections.map((collection) => collection.id);
   }
@@ -73,6 +73,11 @@ async function deleteItem(itemId) {
 }
 
 async function deleteByCollectionIds(collectionIds) {
+  const collectionItems = Item.findAll({where: {collectionId: collectionIds}})
+  if (!collectionItems.length) {
+    return
+  }
+
   const rows = await Item.destroy({
     where: {
       collectionId: collectionIds,

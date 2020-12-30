@@ -21,8 +21,14 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      role: DataTypes.STRING,
-      groupId: DataTypes.INTEGER
+      role: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      groupId: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      }
     },
     {
       sequelize,

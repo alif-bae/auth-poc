@@ -38,6 +38,8 @@ async function guardRoleCreate(req, res, next) {
     if (!req.permissions.allowedGroupIds.includes(parseInt(req.body.groupId))) {
       // manager can only create roles in groups they manage
       res.status(403).send("Forbidden");
+    } else {
+      next()
     }
   } else {
     res.status(403).send("Forbidden");

@@ -30,7 +30,7 @@ const roleCreate = async (req, res, next) => {
       throw { status: 400, message: "groupId is required" }
     }
 
-    const newRole = await roleService.createRole(req.body.name, parseInt(req.body.groupId));
+    const newRole = await roleService.createRole(req.body.role, parseInt(req.body.groupId));
     if (!newRole) {
       throw { status: 422, message: "could not create role" };
     } else {
@@ -49,7 +49,7 @@ const roleEdit = async (req, res, next) => {
       throw { status: 400, message: "name is required" };
     }
     const reqRoleId = parseInt(req.params.id);
-    const role = await roleService.updateRole(reqRoleId, req.body.name);
+    const role = await roleService.updateRole(reqRoleId, req.body.role);
     res.status(200).json(role);
   } catch (err) {
     if (err.status == 404) {
