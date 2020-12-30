@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development nodemon app.js",
+    "db:reload:dev": "NODE_ENV=development rm development.db.sqlite && NODE_ENV=development npx sequelize db:migrate && NODE_ENV=development npx sequelize db:seed:all",
+    "db:reload:test": "NODE_ENV=test rm test.db.sqlite && NODE_ENV=test npx sequelize db:migrate && NODE_ENV=test npx sequelize db:seed:all",
+    "mocha": "npm run db:reload:test && npx mocha --timeout 10000",
     "reload-db": "node scripts/db_reload.js"
   },
   "author": "ali fawad",
@@ -15,12 +17,10 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "json": "^10.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "node-cmd": "^4.0.0",
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -30,6 +30,10 @@
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.15.0"
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.15.0",
+    "mocha": "^8.2.1"
   }
 }
