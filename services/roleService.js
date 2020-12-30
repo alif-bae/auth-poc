@@ -81,6 +81,10 @@ async function getByGroupIds(groupIds) {
 }
 
 async function deleteByGroupId(groupId) {
+  const groupRoles = await getByGroupIds(groupId)
+  if (!groupRoles.length) {
+    return
+  }
   const transaction = await sequelize.transaction();
   try {
     await userRoleService.deleteByGroupId(groupId);

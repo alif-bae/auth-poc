@@ -82,7 +82,11 @@ async function getByGroupIds(groupIds) {
 async function deleteByGroupIds(groupIds) {
   const groupCollections = await getByGroupIds(groupIds);
   const collectionIds = groupCollections.map((col) => col.id);
-  await deleteCollection(collectionIds);
+  if (!collectionIds.length) {
+    return
+  } else {
+    await deleteCollection(collectionIds);
+  }
 }
 
 module.exports = {
