@@ -62,7 +62,7 @@ const collectionDelete = async (req, res, next) => {
   try {
     const reqCollectionId = parseInt(req.params.id);
     await collectionService.deleteCollection([reqCollectionId]);
-    res.status(200).json({message: 'collection deleted successfully'});
+    res.status(204).json({message: 'collection deleted successfully'});
   } catch (err) {
     if (err.status == 404) {
       res.status(err.status).json({ message: err.message });
