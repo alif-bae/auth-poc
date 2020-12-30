@@ -1,7 +1,8 @@
 node_modules/
 .vscode/
 
+package-lock.json
 .nvmrc
 .prettierrc
 .env
-package-lock.json
+.eslintrc.js
