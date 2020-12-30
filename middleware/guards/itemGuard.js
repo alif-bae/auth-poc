@@ -34,9 +34,13 @@ async function guardItemCreate(req, res, next) {
   if (req.permissions.isGlobalManager) {
     next();
   } else if (req.permissions.allowedGroupIds.length) {
-    if (!req.permissions.allowedGroupIds.includes(parseInt(req.body.groupId))) {
+    const collectionGroups = await collectionService.getByGroupIds(req.permissions.allowedGroupIds)
+    const collectionIds = collectionGroups.map((collection) => collection.groupId)
+    if (!collectionIds.includes(parseInt(req.body.collectionId))) {
       // manager can only create items in groups they manage
       res.status(403).send("Forbidden");
+    } else {
+      next()
     }
   } else {
     res.status(403).send("Forbidden");
@@ -50,3 +54,4 @@ module.exports = {
 };
 
 const itemService = require("../../services/itemService");
+const collectionService = require("../../services/collectionService")
