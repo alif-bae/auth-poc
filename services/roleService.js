@@ -21,8 +21,8 @@ async function getRoleById(roleId) {
 
 async function createRole(name, groupId) {
   const newRole = await Role.create({
-    name: name,
     groupId: groupId,
+    role: name
   });
   if (!newRole) {
     throw { status: 422, message: "could not create role" };
@@ -34,7 +34,7 @@ async function createRole(name, groupId) {
 async function updateRole(roleId, name) {
   const [rows, role] = await Role.update(
     {
-      name: name,
+      role: name,
     },
     {
       where: {
