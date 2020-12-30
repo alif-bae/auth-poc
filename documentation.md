@@ -11,8 +11,8 @@
 
 ## General Resource Information
 
-1. All resources except the `Auth` and `SignUp` resource require a user's token to be included in the request headers `{Authorization: <token>`. This token can be generated on a per-user basis from the [Auth Resource](#Auth-Resource)
-2. All resources which return objects (with the execption of the `Auth` resource) return the `createdAt` and `updatedAt` timestamps of the respective resource
+1. All resources (with the exception of the [Auth](#Auth-Resource)) resource require a user's token to be included in the request headers `{Authorization: <token>`. This token can be generated on a per-user basis from the [Auth Resource](#Auth-Resource)
+2. All resources which return data (with the execption of the `Auth` resource) return the `createdAt` and `updatedAt` timestamps of the respective resource
 3. The database is pre-populated with users and other resource data to begin with:
     * Global Manager
         * email: `global_manager@example.com`
@@ -253,7 +253,7 @@ Path: `/collection/`, `/collection/:id`
 
 ##### Response Body
 
-On a `200 OK` response only. Returns an array of Collection Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the collection is not authorized to interact with this resource
+On a `200 OK` response only. Returns an array of Collection Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
@@ -274,7 +274,7 @@ Path: `/collection/`
 
 ##### Response Body
 
-On a `201 CREATED` response only. Returns the newly created Collection Objects. Returns a `403 FORBIDDEN` if the collection is not authorized to interact with this resource
+On a `201 CREATED` response only. Returns the newly created Collection Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
@@ -294,7 +294,7 @@ Path: `/collection/:id`
 
 ##### Response Body
 
-On a `201 CREATED` response only. Returns the newly created Collection Objects. Returns a `403 FORBIDDEN` if the collection is not authorized to interact with this resource
+On a `201 CREATED` response only. Returns the newly created Collection Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
@@ -318,7 +318,7 @@ Path: `/item/`, `/item/:id`
 
 ##### Response Body
 
-On a `200 OK` response only. Returns an array of Item Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the item is not authorized to interact with this resource
+On a `200 OK` response only. Returns an array of Item Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
