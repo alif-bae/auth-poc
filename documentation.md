@@ -13,6 +13,16 @@
 
 1. All resources except the `Auth` and `SignUp` resource require a user's token to be included in the request headers `{Authorization: <token>`. This token can be generated on a per-user basis from the [Auth Resource](#Auth-Resource)
 2. All resources which return objects (with the execption of the `Auth` resource) return the `createdAt` and `updatedAt` timestamps of the respective resource
+3. The database is pre-populated with users and other resource data to begin with:
+    * Global Manager
+        * email: `global_manager@example.com`
+        * password: `hello123`
+    * Manger of a single group
+        * email: `manager_g1@example.com`
+        * password: `hello123`
+    * Regular user of a single group
+        * email: `regular_g1@example.com`
+        * password: `hello123`
 
 ### Auth Resource
 
@@ -45,7 +55,7 @@ On a `200 OK` response only
 
 Path: `/user/`, `/user/:id`
 
-#### Response Body
+##### Response Body
 
 On a `200 OK` response only. Returns an array of User Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -59,7 +69,14 @@ On a `200 OK` response only. Returns an array of User Objects if `:id` is not pr
 
 Path: `/user/`
 
-#### Response Body
+##### Request Body
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|email(`str`)|yes|the user's email|
+|password(`str`)|yes|the user's hashed password|
+
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created User Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -73,14 +90,14 @@ On a `201 CREATED` response only. Returns the newly created User Objects. Return
 
 Path: `/user/:id`
 
-#### Request Body
+##### Request Body
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
 |email(`str`)|yes|the user's email|
 |password(`str`)|yes|the user's hashed password|
 
-#### Response Body
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created User Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -94,7 +111,7 @@ On a `201 CREATED` response only. Returns the newly created User Objects. Return
 
 Path: `/user/:id`
 
-#### Response Body
+##### Response Body
 
 Return a `204 NO CONTENT` response if the user is successfully deleted. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -106,7 +123,7 @@ Return a `204 NO CONTENT` response if the user is successfully deleted. Returns 
 
 Path: `/role/`, `/role/:id`
 
-#### Response Body
+##### Response Body
 
 On a `200 OK` response only. Returns an array of Role Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -120,7 +137,14 @@ On a `200 OK` response only. Returns an array of Role Objects if `:id` is not pr
 
 Path: `/role/`
 
-#### Response Body
+##### Request Body
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|role(`str`)|yes|the name of the role|
+|groupId(`str`)|yes|the ID of the group the role belongs to|
+
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created Role Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -134,13 +158,13 @@ On a `201 CREATED` response only. Returns the newly created Role Objects. Return
 
 Path: `/role/:id`
 
-#### Request Body
+##### Request Body
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
 |role(`str`)|yes|the name of the role|
 
-#### Response Body
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created Role Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -152,9 +176,72 @@ On a `201 CREATED` response only. Returns the newly created Role Objects. Return
 
 Path: `/role/:id`
 
-#### Response Body
+##### Response Body
 
 Returns a `204 NO CONTENT` response if the role is successfully deleted. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource.
+
+---
+
+### Group Resource
+
+#### GET
+
+Path: `/group/`, `/group/:id`
+
+##### Response Body
+
+On a `200 OK` response only. Returns an array of Group Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|id(`int`)|yes|the group's ID|
+|name(`str`)|yes|the name of the group|
+
+#### POST
+
+Path: `/group/`
+
+##### Request Body
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|name(`str`)|yes|the name of the group|
+
+##### Response Body
+
+On a `201 CREATED` response only. Returns the newly created Group Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|id(`int`)|yes|the group's ID|
+|name(`str`)|yes|the name of the group|
+
+#### PUT
+
+Path: `/group/:id`
+
+##### Request Body
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|name(`str`)|yes|the name of the group|
+
+##### Response Body
+
+On a `201 CREATED` response only. Returns the newly created Group Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|id(`int`)|yes|the group's ID|
+|name(`str`)|yes|the name of the group|
+
+#### DELETE
+
+Path: `/group/:id`
+
+##### Response Body
+
+Returns a `204 NO CONTENT` response if the group is successfully deleted. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource.
 
 ---
 
@@ -164,7 +251,7 @@ Returns a `204 NO CONTENT` response if the role is successfully deleted. Returns
 
 Path: `/collection/`, `/collection/:id`
 
-#### Response Body
+##### Response Body
 
 On a `200 OK` response only. Returns an array of Collection Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the collection is not authorized to interact with this resource
 
@@ -178,7 +265,14 @@ On a `200 OK` response only. Returns an array of Collection Objects if `:id` is 
 
 Path: `/collection/`
 
-#### Response Body
+##### Request Body
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|name(`str`)|yes|the name of the collection|
+|groupId(`str`)|yes|the ID of the group the collection belongs to|
+
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created Collection Objects. Returns a `403 FORBIDDEN` if the collection is not authorized to interact with this resource
 
@@ -192,13 +286,13 @@ On a `201 CREATED` response only. Returns the newly created Collection Objects. 
 
 Path: `/collection/:id`
 
-#### Request Body
+##### Request Body
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
 |name(`str`)|yes|the name of the collection|
 
-#### Response Body
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created Collection Objects. Returns a `403 FORBIDDEN` if the collection is not authorized to interact with this resource
 
@@ -210,7 +304,7 @@ On a `201 CREATED` response only. Returns the newly created Collection Objects. 
 
 Path: `/collection/:id`
 
-#### Response Body
+##### Response Body
 
 Returns a `204 NO CONTENT` response if the collection is successfully deleted. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource.
 
@@ -222,7 +316,7 @@ Returns a `204 NO CONTENT` response if the collection is successfully deleted. R
 
 Path: `/item/`, `/item/:id`
 
-#### Response Body
+##### Response Body
 
 On a `200 OK` response only. Returns an array of Item Objects if `:id` is not provided. Returns a `403 FORBIDDEN` if the item is not authorized to interact with this resource
 
@@ -236,7 +330,14 @@ On a `200 OK` response only. Returns an array of Item Objects if `:id` is not pr
 
 Path: `/item/`
 
-#### Response Body
+##### Request Body
+
+|Name|Required|Description|
+|:-------------|:-------------|:-----|
+|name(`str`)|yes|the name of the item|
+|collectionId(`str`)|yes|the ID of the collection the item belongs to|
+
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created Item Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -250,13 +351,13 @@ On a `201 CREATED` response only. Returns the newly created Item Objects. Return
 
 Path: `/item/:id`
 
-#### Request Body
+##### Request Body
 
 |Name|Required|Description|
 |:-------------|:-------------|:-----|
 |name(`str`)|yes|the name of the item|
 
-#### Response Body
+##### Response Body
 
 On a `201 CREATED` response only. Returns the newly created Item Objects. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource
 
@@ -268,7 +369,7 @@ On a `201 CREATED` response only. Returns the newly created Item Objects. Return
 
 Path: `/item/:id`
 
-#### Response Body
+##### Response Body
 
 Returns a `204 NO CONTENT` response if the item is successfully deleted. Returns a `403 FORBIDDEN` if the user is not authorized to interact with this resource.
 
