@@ -19,10 +19,10 @@ async function getRoleById(roleId) {
   }
 }
 
-async function createRole(name, userId) {
+async function createRole(name, groupId) {
   const newRole = await Role.create({
     name: name,
-    userId: userId,
+    groupId: groupId,
   });
   if (!newRole) {
     throw { status: 422, message: "could not create role" };
